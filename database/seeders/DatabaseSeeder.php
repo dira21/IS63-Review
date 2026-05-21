@@ -1,25 +1,21 @@
 <?php
-
+ 
 namespace Database\Seeders;
-
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+ 
 use Illuminate\Database\Seeder;
-
+ 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Urutan ini WAJIB diikuti karena adanya foreign key:
+        // 1. Prodi dulu (tidak bergantung pada tabel lain)
+        // 2. Mahasiswa (bergantung pada prodis)
+        // 3. Nilai (bergantung pada mahasiswas)
+        $this->call([
+            ProdiSeeder::class,
+            MahasiswaSeeder::class,
+            NilaiSeeder::class,
         ]);
     }
 }
