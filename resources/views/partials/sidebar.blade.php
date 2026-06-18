@@ -22,31 +22,31 @@
     <div class="sidebar-heading">Data Master</div>
 
     {{-- Menu: Program Studi --}}
-    {{-- <li class="nav-item {{ request()->routeIs('prodi.*') ? 'active' : '' }}">
+    <li class="nav-item {{ request()->routeIs('prodi.*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('prodi.index') }}">
             <i class="fas fa-fw fa-university"></i>
             <span>Program Studi</span>
         </a>
-    </li> --}}
+    </li>
 
     {{-- Menu: Mahasiswa --}}
-    {{-- <li class="nav-item {{ request()->routeIs('mahasiswa.*') ? 'active' : '' }}">
+    <li class="nav-item {{ request()->routeIs('mahasiswa.*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('mahasiswa.index') }}">
             <i class="fas fa-fw fa-users"></i>
             <span>Mahasiswa</span>
         </a>
-    </li> --}}
+    </li>
 
     <hr class="sidebar-divider">
     <div class="sidebar-heading">Akademik</div>
 
     {{-- Menu: Nilai --}}
-    {{-- <li class="nav-item {{ request()->routeIs('nilai.*') ? 'active' : '' }}">
+    <li class="nav-item {{ request()->routeIs('nilai.*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('nilai.index') }}">
             <i class="fas fa-fw fa-chart-bar"></i>
             <span>Nilai Mahasiswa</span>
         </a>
-    </li> --}}
+    </li>
 
     <hr class="sidebar-divider d-none d-md-block">
 

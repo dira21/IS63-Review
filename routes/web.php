@@ -7,6 +7,6 @@ use App\Http\Controllers\DashboardController;
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
  
 // Route untuk modul lain akan ditambahkan di Bab 5
-// Route::resource('prodi', ProdiController::class);
-// Route::resource('mahasiswa', MahasiswaController::class);
-// Route::resource('nilai', NilaiController::class);
+Route::resource('prodi', ProdiController::class);
+Route::resource('mahasiswa', MahasiswaController::class);
+Route::resource('nilai', NilaiController::class);
