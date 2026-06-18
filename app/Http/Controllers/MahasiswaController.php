@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
  
 use App\Models\Mahasiswa;
 use App\Models\Prodi;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreMahasiswaRequest;    // ← import Form Request
+use App\Http\Requests\UpdateMahasiswaRequest; 
 use Illuminate\Support\Facades\Storage;
  
 class MahasiswaController extends Controller
@@ -57,38 +58,19 @@ class MahasiswaController extends Controller
      * store() — Simpan mahasiswa baru
      * POST /mahasiswa
      */
-    public function store(Request $request)
+    public function store(StoreMahasiswaRequest $request)
     {
-        $validated = $request->validate([
-            'prodi_id' => 'required|exists:prodis,id',
-            'nim'      => 'required|string|max:20|unique:mahasiswas,nim',
-            'nama'     => 'required|string|max:100',
-            'email'    => 'required|email|max:100|unique:mahasiswas,email',
-            'angkatan' => 'required|digits:4|integer|min:2000|max:'.date('Y'),
-            'status'   => 'required|in:aktif,cuti,lulus,dropout',
-            'no_hp'    => 'nullable|string|max:15',
-            'alamat'   => 'nullable|string',
-            'foto'     => 'nullable|image|mimes:jpg,jpeg,png|max:2048', // max 2MB
-        ], [
-            'prodi_id.exists'  => 'Program studi tidak valid.',
-            'nim.unique'       => 'NIM sudah terdaftar.',
-            'email.unique'     => 'Email sudah digunakan.',
-            'angkatan.digits'  => 'Angkatan harus 4 digit (contoh: 2022).',
-            'foto.image'       => 'File harus berupa gambar.',
-            'foto.max'         => 'Ukuran foto maksimal 2MB.',
-        ]);
+        // $request->validated() hanya berisi data yang sudah divalidasi
+        $data = $request->validated();
  
-        // Handle upload foto jika ada
         if ($request->hasFile('foto')) {
-            $validated['foto'] = $request->file('foto')
-                ->store('foto-mahasiswa', 'public');
+            $data['foto'] = $request->file('foto')->store('foto-mahasiswa', 'public');
         }
  
-        Mahasiswa::create($validated);
+        Mahasiswa::create($data);
  
-        return redirect()
-            ->route('mahasiswa.index')
-            ->with('success', 'Data mahasiswa berhasil ditambahkan!');
+        return redirect()->route('mahasiswa.index')
+                         ->with('success', 'Data mahasiswa berhasil ditambahkan!');
     }
  
     /**
@@ -119,37 +101,26 @@ class MahasiswaController extends Controller
      * update() — Perbarui data mahasiswa
      * PUT /mahasiswa/{mahasiswa}
      */
-    public function update(Request $request, Mahasiswa $mahasiswa)
+    public function update(UpdateMahasiswaRequest $request, Mahasiswa $mahasiswa)
     {
-        $validated = $request->validate([
-            'prodi_id' => 'required|exists:prodis,id',
-            'nim'      => 'required|string|max:20|unique:mahasiswas,nim,'.$mahasiswa->id,
-            'nama'     => 'required|string|max:100',
-            'email'    => 'required|email|max:100|unique:mahasiswas,email,'.$mahasiswa->id,
-            'angkatan' => 'required|digits:4|integer|min:2000|max:'.date('Y'),
-            'status'   => 'required|in:aktif,cuti,lulus,dropout',
-            'no_hp'    => 'nullable|string|max:15',
-            'alamat'   => 'nullable|string',
-            'foto'     => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
- 
-        // Handle upload foto baru
+        $data = $request->validated();
+
         if ($request->hasFile('foto')) {
-            // Hapus foto lama jika ada
             if ($mahasiswa->foto) {
                 Storage::disk('public')->delete($mahasiswa->foto);
             }
-            $validated['foto'] = $request->file('foto')
+
+            $data['foto'] = $request->file('foto')
                 ->store('foto-mahasiswa', 'public');
         }
- 
-        $mahasiswa->update($validated);
- 
+
+        $mahasiswa->update($data);
+
         return redirect()
             ->route('mahasiswa.index')
             ->with('success', 'Data mahasiswa berhasil diperbarui!');
     }
- 
+
     /**
      * destroy() — Hapus data mahasiswa
      * DELETE /mahasiswa/{mahasiswa}
