@@ -1,12 +1,22 @@
 <?php
- 
+// routes/web.php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
- 
-// Dashboard (sementara, tanpa middleware auth — akan ditambah di Bab 7)
+use App\Http\Controllers\ProdiController;
+use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\NilaiController;
+
+// ─── Dashboard ───────────────────────────────────────────────
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
- 
-// Route untuk modul lain akan ditambahkan di Bab 5
+
+// ─── Modul Program Studi ──────────────────────────────────────
+// Menghasilkan 7 route: prodi.index, prodi.create, prodi.store,
+//                       prodi.show, prodi.edit, prodi.update, prodi.destroy
 Route::resource('prodi', ProdiController::class);
+
+// ─── Modul Mahasiswa ──────────────────────────────────────────
 Route::resource('mahasiswa', MahasiswaController::class);
+
+// ─── Modul Nilai ──────────────────────────────────────────────
 Route::resource('nilai', NilaiController::class);

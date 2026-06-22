@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
  
 use App\Models\Mahasiswa;
 use App\Models\Prodi;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreMahasiswaRequest;    // ← import Form Request
 use App\Http\Requests\UpdateMahasiswaRequest; 
 use Illuminate\Support\Facades\Storage;

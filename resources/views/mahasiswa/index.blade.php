@@ -1,4 +1,4 @@
-@extends('layout.master')
+{{-- @extends('layouts.master')
 @section('title')
 Data Mahasiswa
 @endsection
@@ -27,7 +27,7 @@ Data Mahasiswa
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($mahasiswa as $x)
+                    @forelse ($mahasiswas as $x)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $x->nama }}</td>
@@ -86,4 +86,4 @@ Swal.fire({
 </script>
 @endif
 
-@endsection
+@endsection --}}
