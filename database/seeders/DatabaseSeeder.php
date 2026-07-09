@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
         // 2. Mahasiswa (bergantung pada prodis)
         // 3. Nilai (bergantung pada mahasiswas)
         $this->call([
+            UserSeeder::class,
             ProdiSeeder::class,
             MahasiswaSeeder::class,
             NilaiSeeder::class,
